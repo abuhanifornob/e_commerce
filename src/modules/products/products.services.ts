@@ -1,5 +1,3 @@
-import { AnyArray } from 'mongoose';
-
 import { TProducts } from './products.interface';
 import { Product } from './products.model';
 
@@ -26,7 +24,51 @@ const searchProductFromDB = async (searchTerm: any) => {
       { tags: new RegExp(searchTerm, 'i') },
     ],
   });
-  console.log(result);
+
+  return result;
+};
+
+const deletePrductFormDB = async (productId: string) => {
+  const result = await Product.findByIdAndDelete(productId);
+  return result;
+};
+const updateProductFormDB = async (
+  productId: string,
+  payload: Partial<TProducts>,
+) => {
+  const { tags, variants, inventory, ...remainingProductData } = payload;
+  const modifiedUpdateData: Record<string, unknown> = {
+    ...remainingProductData,
+  };
+
+  // Handling Object Update
+  if (inventory && Object.keys(inventory)) {
+    for (const [key, value] of Object.entries(inventory)) {
+      modifiedUpdateData[`inventory.${key}`] = value;
+    }
+  }
+  // Handling array updates
+  if (tags && Array.isArray(tags)) {
+    modifiedUpdateData['tags'] = tags;
+  }
+  // Handling Array of Object Data Update
+  if (variants && Array.isArray(variants)) {
+    modifiedUpdateData['variants'] = variants.map((variant, index) => {
+      const variantUpdates: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(variant)) {
+        variantUpdates[`variants.${index}.${key}`] = value;
+      }
+      return variantUpdates;
+    });
+  }
+  // Data Update into Database
+  const result = await Product.findByIdAndUpdate(
+    productId,
+    modifiedUpdateData,
+    {
+      new: true,
+    },
+  );
   return result;
 };
 
@@ -35,4 +77,6 @@ export const ProductServices = {
   getAllProductsFormDB,
   getSingleProductFromDB,
   searchProductFromDB,
+  deletePrductFormDB,
+  updateProductFormDB,
 };

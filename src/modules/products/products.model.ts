@@ -40,4 +40,10 @@ export const productSchema = new Schema({
   },
 });
 
+// // // create static for check uese exits
+// productSchema.statics.isProductIdExits = async function (productId: string) {
+//   const productIdExits = await Product.findById(productId); // Check this user id avelavel or not
+//   return productIdExits;
+// };
+
 export const Product = model('Product', productSchema);

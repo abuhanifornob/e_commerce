@@ -76,10 +76,52 @@ const searchProduct = async (req: Request, res: Response) => {
     });
   }
 };
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    await ProductServices.deletePrductFormDB(productId);
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully!',
+      data: null,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Product create False',
+    });
+  }
+};
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const updatedData = req.body;
+
+    const result = await ProductServices.updateProductFormDB(
+      productId,
+      updatedData,
+    );
+    res.status(200).json({
+      success: true,
+      message: 'Product updated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Product create False',
+    });
+  }
+};
 
 export const ProductControllers = {
   createProducts,
   getAllProducts,
   getSingleProducts,
   searchProduct,
+  deleteProduct,
+  updateProduct,
 };

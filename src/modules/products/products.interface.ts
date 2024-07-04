@@ -17,3 +17,8 @@ export type TProducts = {
   variants: Variant[];
   inventory: Inventory;
 };
+
+// // // Create a Static  model
+// export interface ProductModel extends Model<TProducts> {
+//   isProductIdExits(productId: string): Promise<TProducts | null>;
+// }
