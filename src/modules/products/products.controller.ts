@@ -53,9 +53,33 @@ const getSingleProducts = async (req: Request, res: Response) => {
     });
   }
 };
+const searchProduct = async (req: Request, res: Response) => {
+  try {
+    const { searchTerm } = req.query;
+    const result = await ProductServices.searchProductFromDB(searchTerm);
+    if (result.length <= 0) {
+      return res.status(500).json({
+        success: false,
+        message: 'Not Found Product',
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Product fetched successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Product create False',
+    });
+  }
+};
 
 export const ProductControllers = {
   createProducts,
   getAllProducts,
   getSingleProducts,
+  searchProduct,
 };
