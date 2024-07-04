@@ -5,5 +5,7 @@ import { ProductControllers } from './products.controller';
 const router = express.Router();
 
 router.post('/products', ProductControllers.createProducts);
+router.get('/products', ProductControllers.getAllProducts);
+router.get('/products/:productId', ProductControllers.getSingleProducts);
 
 export const ProductRoutes = router;

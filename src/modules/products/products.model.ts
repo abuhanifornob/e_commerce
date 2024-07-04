@@ -15,23 +15,23 @@ export const inventorySchema = new Schema({
 export const productSchema = new Schema({
   name: {
     type: String,
-    require: [true, 'Name is Required'],
+    required: [true, 'Name is Required'],
   },
   description: {
     type: String,
-    require: [true, 'Description is Required'],
+    required: [true, 'Description is Required'],
   },
   price: {
     type: Number,
-    require: [true, 'Price is Required'],
+    required: [true, 'Price is Required'],
   },
   category: {
     type: String,
-    require: [true, 'Price is Required'],
+    required: [true, 'Price is Required'],
   },
   tags: {
     type: [String],
-    require: [true, 'Tags is Required'],
+    required: [true, 'Tags is Required'],
   },
   variants: { type: [variantSchema], required: [true, 'Variants is Required'] },
   inventory: {
