@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 
-const orderSchema = new Schema({
+import { OrderStaticModel, TOrders } from './orders.interface';
+
+const orderSchema = new Schema<TOrders, OrderStaticModel>({
   email: {
     type: String,
     required: [true, 'Email is Required'],
@@ -19,4 +21,10 @@ const orderSchema = new Schema({
   },
 });
 
-export const OrderModel = model('Order', orderSchema);
+orderSchema.statics.isOrderExitsByEmail = async function (email: string) {
+  return await OrderModel.findOne({ email });
+};
+export const OrderModel = model<TOrders, OrderStaticModel>(
+  'Order',
+  orderSchema,
+);

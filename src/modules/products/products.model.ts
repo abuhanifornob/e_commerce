@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+import { ProductStaticModel, TProducts } from './products.interface';
+
 // Define the Variant sub-schema
 export const variantSchema = new Schema({
   type: { type: String, required: [true, 'Type is Requuired'] },
@@ -12,7 +14,7 @@ export const inventorySchema = new Schema({
   inStock: { type: Boolean, required: true },
 });
 
-export const productSchema = new Schema({
+export const productSchema = new Schema<TProducts, ProductStaticModel>({
   name: {
     type: String,
     required: [true, 'Name is Required'],
@@ -40,10 +42,13 @@ export const productSchema = new Schema({
   },
 });
 
-// // // create static for check uese exits
-// productSchema.statics.isProductIdExits = async function (productId: string) {
-//   const productIdExits = await Product.findById(productId); // Check this user id avelavel or not
-//   return productIdExits;
-// };
+// // create static for check uese exits
+productSchema.statics.isProductIdExits = async function (productId: string) {
+  const productIdExits = await Product.findById(productId); // Check this user id avelavel or not
+  return productIdExits;
+};
 
-export const Product = model('Product', productSchema);
+export const Product = model<TProducts, ProductStaticModel>(
+  'Product',
+  productSchema,
+);

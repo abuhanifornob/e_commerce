@@ -13,7 +13,7 @@ const createOrdersIntoDB = async (payload: TOrders) => {
   // Check if the ordered quantity exceeds the available quantity
   if (quantity > product.inventory.quantity) {
     // return { success: false, message: 'Insufficient stock' };
-    return 'Insufficient stock';
+    return 'Insufficient quantity available in inventory';
   }
   if (quantity === product.inventory.quantity) {
     product.inventory.quantity = product.inventory.quantity - quantity;
@@ -32,6 +32,21 @@ const createOrdersIntoDB = async (payload: TOrders) => {
   return result;
 };
 
+const getAllOrdersFromDB = async () => {
+  const result = await OrderModel.find();
+  return result;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getSearchOrderByEmailFromDB = async (email: any) => {
+  const result = await OrderModel.find({
+    email,
+  });
+  return result;
+};
+
 export const OrderServices = {
   createOrdersIntoDB,
+  getAllOrdersFromDB,
+  getSearchOrderByEmailFromDB,
 };

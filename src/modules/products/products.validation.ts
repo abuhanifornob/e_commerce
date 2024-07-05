@@ -4,7 +4,7 @@ const variantZodValidation = z.object({
   value: z.string(),
 });
 const inventoryZodValidation = z.object({
-  quantity: z.number().int().min(0), // Ensure quantity is a non-negative integer
+  quantity: z.number().int().min(0),
   inStock: z.boolean(),
 });
 
@@ -13,7 +13,7 @@ export const productZodValidationSchema = z.object({
   description: z.string(),
   price: z.number().positive(),
   category: z.string(),
-  tag: z.array(z.string()),
+  tags: z.array(z.string()),
   variants: z.array(variantZodValidation),
   inventory: inventoryZodValidation,
 });

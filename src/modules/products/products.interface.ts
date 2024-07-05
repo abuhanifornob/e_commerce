@@ -1,14 +1,16 @@
-export type Variant = {
+import { Model } from 'mongoose';
+
+export interface Variant {
   type: string;
   value: string;
-};
+}
 
-export type Inventory = {
+export interface Inventory {
   quantity: number;
   inStock: boolean;
-};
+}
 
-export type TProducts = {
+export interface TProducts {
   name: string;
   description: string;
   price: number;
@@ -16,9 +18,10 @@ export type TProducts = {
   tags: string[];
   variants: Variant[];
   inventory: Inventory;
-};
+}
 
-// // // Create a Static  model
-// export interface ProductModel extends Model<TProducts> {
-//   isProductIdExits(productId: string): Promise<TProducts | null>;
-// }
+// // Create a Static  model
+export interface ProductStaticModel extends Model<TProducts> {
+  // eslint-disable-next-line no-unused-vars
+  isProductIdExits(productId: string): Promise<TProducts | null>;
+}
